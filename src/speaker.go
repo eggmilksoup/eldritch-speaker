@@ -79,14 +79,11 @@ func main() {
 		delay, _ := time.ParseDuration("48h")
 		time.Sleep(delay)
 
-		file, err := os.Open("nomic/phase")
+		buf, err := os.ReadFile("nomic/phase")
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "os.Open: %s\n", err.Error())
+			fmt.Fprintf(os.Stderr, "os.ReadFile: %s\n", err.Error())
 			os.Exit(1)
 		}
-
-		var buf []byte
-		file.Read(buf)
 		cmd := exec.Command("bin/" + string(buf[:len(buf) - 1]), "reminder")
 		cmd.Env = append(os.Environ(), "key=" + key)
 		cmd.Run()
