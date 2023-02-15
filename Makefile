@@ -1,6 +1,6 @@
 all:
 	mkdir -p bin
-	${MAKE} bin/drafting bin/speaker
+	${MAKE} bin/drafting bin/dummy bin/speaker bin/rcp
 
 bin/drafting: src/drafting.go
 	go build -o bin/drafting src/drafting.go
