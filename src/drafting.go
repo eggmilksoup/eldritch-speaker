@@ -190,6 +190,11 @@ func main() {
 											string(title[:len(title) - 1]),
 										11,
 										7 * 24 * 60)
+
+									os.WriteFile("nomic/poll-thread-id",
+									             []byte(thread.ID + "\n"),
+									             0644)
+
 									txt := "**Official Vote Thread**\n" +
 										   "RCP " + string(rcp[:len(rcp) - 1]) + " -" +
 											" " + string(title[:len(title) - 1]) +
