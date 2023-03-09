@@ -72,6 +72,52 @@ func main() {
 		return
 	}
 
+	msg, err := discord.ChannelMessage(os.Getenv("channel"),
+									   os.Args[2])
+	if err != nil {
+		fmt.Fprintf(os.Stderr,
+					"discordgo.Session.ChannelMessage: %s",
+					err.Error())
+		os.Exit(1)
+	}
+
+	if msg.Content == "insult optin" {
+		players, _ := os.ReadDir("insult")
+		found := false
+		for _, player := range players {
+			buf, _ := os.ReadFile("insult/" + player.Name())
+			if os.Getenv("player") == string(buf[:len(buf) - 1]) {
+				found = true
+				break
+			}
+		}
+		if found {
+			discord.ChannelMessageSend(
+				os.Getenv("channel"),
+				"You are already on the insult list.")
+		} else {
+			players, _ := os.ReadDir("players")
+			found = false
+			for _, player := range players {
+				buf, _ := os.ReadFile("players/" + player.Name())
+				if os.Getenv("player") == string(buf[:len(buf) - 1]) {
+					found = true
+					os.Symlink(
+						"players/" + player.Name(),
+						"insult/" + player.Name())
+					break
+				}
+			}
+			if found {
+				discord.ChannelMessageSend(
+					os.Getenv("channel"),
+					"You have been added to the insult list, you absolute " +
+					"buffoon.")
+			}
+		}
+		return
+	}
+
 	isauthor := os.Getenv("player") == authorid
 
 	admin, err := os.ReadDir("nomic/admin")
@@ -94,15 +140,6 @@ func main() {
 	}
 
 	if isauthor || isadmin {
-
-		msg, err := discord.ChannelMessage(os.Getenv("channel"),
-		                                   os.Args[2])
-		if err != nil {
-			fmt.Fprintf(os.Stderr,
-			            "discordgo.Session.ChannelMessage: %s",
-			            err.Error())
-			os.Exit(1)
-		}
 
 		file, err := os.OpenFile("nomic/draft", os.O_WRONLY|os.O_APPEND, 0644)
 		if err == nil {
