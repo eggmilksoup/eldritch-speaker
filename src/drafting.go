@@ -3,7 +3,9 @@
 package main
 
 import "bufio"
+import "crypto/rand"
 import "fmt"
+import "math/big"
 import "os"
 import "os/exec"
 import "strings"
@@ -64,10 +66,27 @@ func main() {
 
 		usr, _ := discord.User(authorid)
 
-		discord.ChannelMessageSend(
-			string(buf[:len(buf) - 1]),
-			mention(usr) + ", this is your 48-hour reminder that it is your " +
-			"turn to propose an RCP.")
+		var txt string
+		found := false
+		players, _ := os.ReadDir("nomic/insult")
+		for _, player := range players {
+			buf, _ := os.ReadFile("nomic/insult/" + player.Name())
+			if authorid == string(buf[:len(buf) - 1]) {
+				insults, _ := os.ReadDir("insults")
+				res, _ := rand.Int(rand.Reader, big.NewInt(int64(len(insults))))
+				insult, _ := os.ReadFile(
+					"insults/" + insults[int(res.Int64())].Name())
+				txt = strings.Replace(string(insult), "@", mention(usr), 1)
+				found = true
+				break
+			}
+		}
+		if !found {
+			txt = mention(usr) + ", this is your 48-hour reminder that it is " +
+			"your turn to propose an RCP."
+	 	}
+
+		discord.ChannelMessageSend( string(buf[:len(buf) - 1]), txt)
 
 		return
 	}
