@@ -113,7 +113,8 @@ func main() {
 		if found {
 			discord.ChannelMessageSend(
 				os.Getenv("channel"),
-				"You are already on the insult list.")
+				"You fool, you blongus, you're already on the insult list. " +
+				"Pull yourself together.")
 		} else {
 			players, _ := os.ReadDir("nomic/players")
 			found = false
@@ -147,15 +148,17 @@ func main() {
 				os.Remove("nomic/insult/" + player.Name())
 				discord.ChannelMessageSend(
 					os.Getenv("channel"),
-					"You have been removed from the insult list.")
+					"Absolutely, Your Litigiousness, ceasing insults " +
+					"immediately.")
 				break
 			}
 		}
 		if !found {
 			discord.ChannelMessageSend(
 				os.Getenv("channel"),
-				"You are not currently on the insult list.  If you are still " +
-				"receiving insults, please contact an administrator.")
+				"Oh dear, have you been getting insults? I don't have you on " +
+				"my hitlist, would you mind speaking to an administrator to " +
+				"see if this can be corrected?")
 		}
 		return
 	}
