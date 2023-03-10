@@ -126,14 +126,14 @@ func main() {
 			if os.Getenv("player") == string(buf[:len(buf) - 1]) {
 				found = true
 				os.Remove("nomic/insult/" + player.Name())
-				discord.ChannelMessage(
+				discord.ChannelMessageSend(
 					os.Getenv("channel"),
 					"You have been removed from the insult list.")
 				break
 			}
 		}
 		if !found {
-			discord.ChannelMessage(
+			discord.ChannelMessageSend(
 				os.Getenv("channel"),
 				"You are not currently on the insult list.  If you are still " +
 				"receiving insults, please contact an administrator.")
