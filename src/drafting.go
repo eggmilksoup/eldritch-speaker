@@ -118,6 +118,28 @@ func main() {
 		return
 	}
 
+	if msg.Content == "insult optout" {
+		players, _ := os.ReadDir("nomic/insult")
+		found := false
+		for _, player := range players {
+			buf, _ := os.ReadFile("nomic/insult/" + player.Name())
+			if os.Getenv("player") == string(buf[:len(buf) - 1]) {
+				found = true
+				os.Remove("nomic/insult/" + player.Name())
+				discord.ChannelMessage(
+					os.Getenv("channel"),
+					"You have been removed from the insult list.")
+				break
+			}
+		}
+		if !found {
+			discord.ChannelMessage(
+				os.Getenv("channel"),
+				"You are not currently on the insult list.  If you are still " +
+				"receiving insults, please contact an administrator.")
+		}
+	}
+
 	isauthor := os.Getenv("player") == authorid
 
 	admin, err := os.ReadDir("nomic/admin")
