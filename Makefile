@@ -6,7 +6,7 @@ bin/drafting: src/drafting.go
 	go build -o bin/drafting src/drafting.go
 
 bin/dummy:
-	ln -sf /bin/true bin/dummy
+	ln -sf /usr/bin/true bin/dummy
 
 bin/speaker: src/speaker.go
 	go build -o bin/speaker src/speaker.go
