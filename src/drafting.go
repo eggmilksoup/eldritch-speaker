@@ -82,10 +82,10 @@ func main() {
 	}
 
 	if msg.Content == "insult optin" {
-		players, _ := os.ReadDir("insult")
+		players, _ := os.ReadDir("nomic/insult")
 		found := false
 		for _, player := range players {
-			buf, _ := os.ReadFile("insult/" + player.Name())
+			buf, _ := os.ReadFile("nomic/insult/" + player.Name())
 			if os.Getenv("player") == string(buf[:len(buf) - 1]) {
 				found = true
 				break
@@ -96,15 +96,15 @@ func main() {
 				os.Getenv("channel"),
 				"You are already on the insult list.")
 		} else {
-			players, _ := os.ReadDir("players")
+			players, _ := os.ReadDir("nomic/players")
 			found = false
 			for _, player := range players {
-				buf, _ := os.ReadFile("players/" + player.Name())
+				buf, _ := os.ReadFile("nomic/players/" + player.Name())
 				if os.Getenv("player") == string(buf[:len(buf) - 1]) {
 					found = true
 					os.Symlink(
-						"players/" + player.Name(),
-						"insult/" + player.Name())
+						"nomic/players/" + player.Name(),
+						"nomic/insult/" + player.Name())
 					break
 				}
 			}

@@ -1,5 +1,5 @@
 all:
-	mkdir -p bin insult
+	mkdir -p bin
 	${MAKE} bin/drafting bin/dummy bin/speaker bin/rcp
 
 bin/drafting: src/drafting.go
