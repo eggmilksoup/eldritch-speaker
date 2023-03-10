@@ -138,6 +138,7 @@ func main() {
 				"You are not currently on the insult list.  If you are still " +
 				"receiving insults, please contact an administrator.")
 		}
+		return
 	}
 
 	isauthor := os.Getenv("player") == authorid
