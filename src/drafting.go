@@ -103,7 +103,7 @@ func main() {
 				if os.Getenv("player") == string(buf[:len(buf) - 1]) {
 					found = true
 					os.Symlink(
-						"nomic/players/" + player.Name(),
+						"../players/" + player.Name(),
 						"nomic/insult/" + player.Name())
 					break
 				}
